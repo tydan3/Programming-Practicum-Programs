@@ -1,0 +1,131 @@
+/*
+* TCSS 305 – Autumn 2019
+* Assignment 2 – Roadrage
+*/
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+/**
+ * This program represents a cart of customer's overall purchase.
+ * 
+ * @author Daniel Ty
+ * @version Oct 24, 2019
+ */
+public abstract class AbstractVehicle implements Vehicle {
+    private int myX;
+    private int myY;
+    private Direction myDir;
+    private final int myInitX;
+    private final int myInitY;
+    private final Direction myInitDir;
+    private boolean myIsAlive;
+    private int myDeathTime;
+    
+    protected AbstractVehicle(final int theX, final int theY, final Direction theDir) {
+        myX = theX;
+        myY = theY;
+        myDir = theDir;
+        myInitX = theX;
+        myInitY = theY;
+        myInitDir = theDir;
+        myIsAlive = true;
+        myDeathTime = 0;
+        
+        
+    }
+
+    @Override
+    public boolean canPass(final Terrain theTerrain, Light theLight) {
+        return true;
+    }
+
+    @Override
+    public Direction chooseDirection(final Map<Direction, Terrain> theNeighbors) {
+        List<Direction> possibleDirections = new ArrayList<Direction>();
+
+        Direction result = Direction.random();
+
+        while (!possibleDirections.contains(result) 
+                        || result.equals(getDirection().reverse())) {
+            result = Direction.random();
+        }
+        return result;
+    }
+
+    @Override
+    public void collide(Vehicle theOther) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public int getDeathTime() {
+        return myDeathTime;
+    }
+
+    @Override
+    public String getImageFileName() {
+        final StringBuilder result = new StringBuilder(getClass().getSimpleName().
+                                                       toLowerCase(Locale.ENGLISH));
+        if (isAlive()) {
+            result.append(".gif");
+        } else {
+            result.append("_dead.gif");
+        }
+        return result.toString();
+    }
+
+    @Override
+    public Direction getDirection() {
+        return myDir;
+    }
+
+    @Override
+    public int getX() {
+        return myX;
+    }
+
+    @Override
+    public int getY() {
+        return myY;
+    }
+
+    @Override
+    public boolean isAlive() {
+        // TODO Auto-generated method stub
+        return myIsAlive;
+    }
+
+    @Override
+    public void poke() {
+        myDeathTime++;
+    }
+
+    @Override
+    public void reset() {
+        myX = myInitX;
+        myY = myInitY;
+        myDir = myInitDir;
+
+    }
+
+    @Override
+    public void setDirection(final Direction theDir) {
+        myDir = theDir;
+    }
+
+    @Override
+    public void setX(final int theX) {
+        myX = theX;
+    }
+
+    @Override
+    public void setY(final int theY) {
+        myY = theY;
+    }
+
+}

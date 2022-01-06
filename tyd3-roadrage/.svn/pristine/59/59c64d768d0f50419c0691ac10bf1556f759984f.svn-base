@@ -1,0 +1,73 @@
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class Taxi extends AbstractVehicle {
+    private int myWaitCycle;
+    private final static int DONE_WAITING = 3;
+    
+    public Taxi(int theX, int theY, Direction theDir) {
+        super(theX, theY, theDir);
+        // TODO Auto-generated constructor stub
+    }
+    
+    @Override
+    public boolean canPass(final Terrain theTerrain, final Light theLight) {
+        boolean result = false;
+        if (theTerrain.equals(Terrain.STREET)
+                        || ((theTerrain.equals(Terrain.CROSSWALK) 
+                                        && (!theLight.equals(Light.RED)
+                                            || (theTerrain.equals(Terrain.CROSSWALK)
+                                                && theLight.equals(Light.RED)
+                                                && myWaitCycle == DONE_WAITING))
+                        || (theTerrain.equals(Terrain.LIGHT)
+                                        && !theLight.equals(Light.RED))))) {
+            myWaitCycle = 0;
+            result = true;
+        } else if (theTerrain.equals(Terrain.CROSSWALK) && theLight.equals(Light.RED)) {
+            myWaitCycle++;
+        }
+        return result;
+    }
+    
+    @Override
+    public Direction chooseDirection(final Map<Direction, Terrain> theNeighbors) {
+        final List<Direction> possibleDir = new ArrayList<Direction>();
+        if (theNeighbors.get(Direction.NORTH).equals(Terrain.STREET)
+                        || theNeighbors.get(Direction.NORTH).equals(Terrain.CROSSWALK)
+                        || theNeighbors.get(Direction.NORTH).equals(Terrain.LIGHT)) {
+            possibleDir.add(Direction.NORTH);
+        }
+        if (theNeighbors.get(Direction.EAST).equals(Terrain.STREET)
+                        || theNeighbors.get(Direction.EAST).equals(Terrain.CROSSWALK)
+                        || theNeighbors.get(Direction.EAST).equals(Terrain.LIGHT)) {
+            possibleDir.add(Direction.EAST);
+
+        }
+        if (theNeighbors.get(Direction.SOUTH).equals(Terrain.STREET)
+                        || theNeighbors.get(Direction.SOUTH).equals(Terrain.CROSSWALK)
+                        || theNeighbors.get(Direction.SOUTH).equals(Terrain.LIGHT)) {
+            possibleDir.add(Direction.SOUTH);
+
+        }
+        if (theNeighbors.get(Direction.WEST).equals(Terrain.STREET)
+                        || theNeighbors.get(Direction.WEST).equals(Terrain.CROSSWALK)
+                        || theNeighbors.get(Direction.WEST).equals(Terrain.LIGHT)) {
+            possibleDir.add(Direction.WEST);
+        }
+        Direction chosenDir = getDirection();
+        if (possibleDir.size() == 1 && possibleDir.contains(getDirection().reverse())) {
+            chosenDir = getDirection().reverse();
+        } else if (!possibleDir.contains(getDirection())
+                        && !possibleDir.contains(getDirection().left())) {
+            chosenDir = getDirection().right();
+        } else if (!possibleDir.contains(getDirection())) {
+            chosenDir = getDirection().left();
+        }
+        return chosenDir;
+    }
+
+
+}

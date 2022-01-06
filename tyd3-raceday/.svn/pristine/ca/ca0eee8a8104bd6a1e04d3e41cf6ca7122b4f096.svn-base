@@ -1,0 +1,90 @@
+/**
+ * TCSS 305 - Autumn 2019
+ * Assignment 4(a) - Raceday
+ */
+package model;
+
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
+/**
+ * Defines behaviors that may be performed on the race object.
+ * 
+ * @author Daniel Ty
+ * @version Nov 15 2019
+ */
+public class RaceBehaviors implements PropertyChangeEnabledRaceControls {
+
+    /**
+     * 
+     */
+    public RaceBehaviors() {
+        // TODO Auto-generated constructor stub
+    }
+
+    @Override
+    public void advance() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void advance(int theMillisecond) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void moveTo(int theMillisecond) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void toggleParticipant(int theParticpantID, boolean theToggle) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void loadRace(final File theRaceFile) throws IOException {
+        if (!theRaceFile.getName().substring(theRaceFile.getName().lastIndexOf('.')).
+                        equals(".rce")) {
+            throw new IOException();
+        }
+        final Scanner inputFile = new Scanner(theRaceFile);
+        while (inputFile.hasNextLine()) {
+            System.out.println(inputFile.nextLine());
+        }
+        inputFile.close();
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener theListener) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void addPropertyChangeListener(String thePropertyName,
+                                          PropertyChangeListener theListener) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener theListener) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void removePropertyChangeListener(String thePropertyName,
+                                             PropertyChangeListener theListener) {
+        // TODO Auto-generated method stub
+
+    }
+
+}

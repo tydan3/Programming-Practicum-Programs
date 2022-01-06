@@ -1,0 +1,55 @@
+/*
+* TCSS 305 – Autumn 2019
+* Assignment 2 – Roadrage
+*/
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * This program represents a cart of customer's overall purchase.
+ * 
+ * @author Daniel Ty
+ * @version Oct 24, 2019
+ */
+public class Atv extends AbstractVehicle {
+
+    /**
+     * 
+     * @param theX
+     * @param theY
+     * @param theDir
+     */
+    public Atv(final int theX, final int theY, final Direction theDir) {
+        super(theX, theY, theDir);
+    }
+    
+    @Override
+    public Direction chooseDirection(final Map<Direction, Terrain> theNeighbors) {
+        final List<Direction> possibleDir = new ArrayList<Direction>();
+        if (theNeighbors.get(Direction.NORTH) != Terrain.WALL) {
+            possibleDir.add(Direction.NORTH);
+        }
+        if (theNeighbors.get(Direction.EAST) != Terrain.WALL) {
+            possibleDir.add(Direction.EAST);
+
+        }
+        if (theNeighbors.get(Direction.SOUTH) != Terrain.WALL) {
+            possibleDir.add(Direction.SOUTH);
+
+        }
+        if (theNeighbors.get(Direction.WEST) != Terrain.WALL) {
+            possibleDir.add(Direction.WEST);
+        }
+        Direction chosenDir = Direction.random();
+        while (!possibleDir.contains(chosenDir) 
+                        || chosenDir.equals(getDirection().reverse())) {
+            chosenDir = Direction.random();
+        }
+        return chosenDir;
+    }
+    
+
+}
